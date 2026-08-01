@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MVHOI: Bridge Multi-View Condition to Complex Human-Object Interaction Video Reenactment via 3D Foundation Model">
+  <title>MVHOI: Multi-View Conditioned HOI Video Reenactment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ════════════════ HERO ════════════════ -->
+<header class="hero">
+  <div class="container">
+    <h1 class="title"><span class="brand">MVHOI</span>: Bridge Multi-View Condition to Complex Human-Object Interaction Video Reenactment via 3D Foundation Model</h1>
+
+    <div class="authors">
+      <span><a href="https://hirotong.fun/">Jinguang Tong</a><sup>1,2,3*</sup></span>
+      <span><a href="https://openreview.net/profile?id=~Jinbo_Wu1">Jinbo Wu</a><sup>3*</sup></span>
+      <span><a href="https://unibruce.github.io/">Kaisiyuan Wang</a><sup>3</sup></span>
+      <span><a href="https://gallenszl.github.io/">Zhelun Shen</a><sup>3</sup></span>
+      <span><a href="https://xuanhuang0.github.io/">Xuan Huang</a><sup>4</sup></span>
+      <span><a href="https://scholar.google.com/citations?user=OC5oCTgAAAAJ">Mochu Xiang</a><sup>3</sup></span>
+      <span><a href="https://scholar.google.com/citations?user=HIeMGxcAAAAJ">Xuesong Li</a><sup>1</sup></span>
+      <span class="nolink">Yingying Li<sup>3</sup></span>
+      <span><a href="https://scholar.google.com/citations?user=pnuQ5UsAAAAJ">Haocheng Feng</a><sup>3</sup></span>
+      <span><a href="https://scholar.google.com/citations?user=kWzyOa8AAAAJ">Chen Zhao</a><sup>3</sup></span>
+      <span><a href="https://hangz-nju-cuhk.github.io/">Hang Zhou</a><sup>3</sup></span>
+      <span class="nolink">Wei He<sup>3</sup></span>
+      <span><a href="https://people.csiro.au/N/C/Chuong-Nguyen">Chuong Nguyen</a><sup>2</sup></span>
+      <span><a href="https://jingdongwang2017.github.io/">Jingdong Wang</a><sup>3</sup></span>
+      <span><a href="https://users.cecs.anu.edu.au/~hongdong/">Hongdong Li</a><sup>1</sup></span>
+    </div>
+    <div class="affiliations">
+      <span><sup>1</sup>The Australian National University</span>
+      <span><sup>2</sup>CSIRO</span>
+      <span><sup>3</sup>Baidu Inc.</span>
+      <span><sup>4</sup>Sun Yat-sen University</span>
+    </div>
+    <p class="equal-note"><sup>*</sup>Equal contribution</p>
+
+    <nav class="links">
+      <a class="btn" href="assets/paper/mvhoi.pdf"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zM14 3.5V8h4.5"/></svg>Paper</a>
+      <a class="btn" href="https://arxiv.org/abs/2603.14686"><svg viewBox="0 0 24 24"><path d="M4 12h16M4 6h16M4 18h16"/></svg>arXiv</a>
+      <a class="btn" href="https://github.com/silence401/MVHOI"><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>Code</a>
+      <a class="btn" href="#" aria-disabled="true"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Data</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════ TEASER ════════════════ -->
+<section class="teaser">
+  <div class="container">
+    <div class="teaser-stage">
+      <video src="assets/videos/teaser.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <p class="caption"><strong>MVHOI</strong> reenacts one source human-object interaction with different target objects.<br>
+      Given only a few reference views of each target (left columns), our method preserves the source motion<br>
+      while staying faithful to the target's geometry and appearance under rotation.</p>
+  </div>
+</section>
+
+<!-- ════════════════ ABSTRACT ════════════════ -->
+<section id="abstract">
+  <div class="container narrow">
+    <h2>Abstract</h2>
+    <p class="abstract-text">
+      Human&ndash;Object Interaction (HOI) video reenactment aims to transfer the interaction dynamics of a source
+      video to a novel target object while preserving realistic hand&ndash;object coordination. Existing methods
+      typically rely on sparse 2D motion controls and monocular references, which are insufficient for complex
+      out-of-plane motion and large viewpoint changes. We present <strong>MVHOI</strong>, a two-stage framework
+      combining implicit motion extraction, 3D-aware multi-view reasoning, and video generation. In the first stage,
+      a motion extractor encodes object dynamics into implicit motion descriptors. Conditioned on these descriptors,
+      our Motion-Driven Object Prior (MDOP) module queries a 3D foundation model over multi-view references of the
+      target object and autoregressively predicts coarse object anchors &mdash; a sequence of images that track the
+      object's evolving orientation and appearance under the source motion without any explicit pose estimation.
+      In the second stage, a DiT-based video generation model uses these anchors as structural guidance and the
+      multi-view references as appearance guidance. We further reuse cross-view attention from MDOP as a soft
+      attention bias to reduce reference-view confusion. For long videos, a cross-iterative inference strategy
+      refreshes subsequent object priors using refined video outputs. Experiments demonstrate consistent improvements
+      over state-of-the-art methods in object fidelity, motion consistency, visual quality, and interaction realism.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════ COMPARISON WITH BASELINES ════════════════ -->
+<section id="comparisons" class="alt">
+  <div class="container">
+    <h2>Comparison with Baselines</h2>
+    <p class="section-sub">Drag the divider to compare our result against GenHOI, the strongest existing
+      baseline, or switch to VACE, HunyuanCustom or MimicMotion. All methods receive the same source video
+      and the multi-view target references shown on the left; both sides play in sync.</p>
+
+    <div class="baseline-tabs" id="baselineTabs" role="tablist" aria-label="Baseline"></div>
+
+    <div class="cmp-stage">
+      <figure class="ref-strip">
+        <img id="refStrip" src="assets/images/refpanels/short1.png" alt="Multi-view references of the target object">
+        <figcaption>Target references</figcaption>
+      </figure>
+      <div class="cmp-slider" id="cmpSlider" style="--pos: 50%">
+        <div class="cmp-frame">
+          <video class="cmp-under" muted loop playsinline preload="auto"></video>
+          <div class="cmp-over-wrap">
+            <video class="cmp-over" muted loop playsinline preload="auto"></video>
+          </div>
+          <span class="cmp-tag cmp-tag-left">MVHOI (Ours)</span>
+          <span class="cmp-tag cmp-tag-right" id="cmpSliderRightTag">GenHOI</span>
+          <div class="cmp-handle" role="slider" aria-label="Comparison divider" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+            <div class="cmp-grip"><svg viewBox="0 0 24 24"><path d="M9 6 5 12l4 6M15 6l4 6-4 6"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-chips" id="cmpSliderChips" role="tablist" aria-label="Comparison cases"></div>
+  </div>
+</section>
+
+<!-- ════════════════ MORE RESULTS ════════════════ -->
+<section id="results">
+  <div class="container wide">
+    <h2>More Results</h2>
+    <p class="section-sub">Source interactions reenacted with different target objects.</p>
+    <div class="demo-grid" id="demoGrid"></div>
+  </div>
+</section>
+
+<!-- ════════════════ BIBTEX ════════════════ -->
+<section id="bibtex" class="alt">
+  <div class="container narrow">
+    <h2>BibTeX</h2>
+    <div class="bib-box">
+      <button class="copy-btn" id="copyBib" aria-label="Copy BibTeX">Copy</button>
+<pre id="bibText">@article{tong2026mvhoi,
+  title={MVHOI: Bridge Multi-view Condition to Complex Human-Object Interaction Video Reenactment via 3D Foundation Model},
+  author={Tong, Jinguang and Wu, Jinbo and Wang, Kaisiyuan and Shen, Zhelun and Huang, Xuan and Xiang, Mochu and Li, Xuesong and Li, Yingying and Feng, Haocheng and Zhao, Chen and others},
+  journal={arXiv preprint arXiv:2603.14686},
+  year={2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container narrow">
+    <p>Website for the paper &ldquo;MVHOI: Bridge Multi-View Condition to Complex Human-Object Interaction Video
+       Reenactment via 3D Foundation Model&rdquo;.</p>
+    <p class="credit">This website is adapted from the <a href="https://nerfies.github.io">Nerfies</a> project page.</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

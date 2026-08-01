@@ -1,0 +1,9 @@
+# internal candidate-selection tooling — not part of the deployed site
+candidates_assets/
+candidates.html
+candidates_assets_build.log
+tools/serve.py
+
+# macOS junk
+.DS_Store
+._*
